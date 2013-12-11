@@ -109,7 +109,7 @@ public class StepRoute{
 		urlString.append(destLatitudeStr);
 		urlString.append(",");
 		urlString.append(destLongitudeStr);
-		urlString.append("&mode=walking&sensor=true");
+		urlString.append("&mode=bicycling&sensor=true");
 		Log.d("xxx", "URL=" + urlString.toString());
 		
 		testURL = urlString.toString();
