@@ -10,5 +10,5 @@ we obtain the route from source to destination every minute in the form of http 
 in the json format. The obtained json is parsed to get only the first step instruction representing the next navigation instruction to
 the rider.
 Further details of this project will be available in the below blog link
-http://www.blogger.com/blogger.g?blogID=3280305356875833375#overview/src=dashboard
+http://www.blogger.com/blogger.g?blogID=3280305356875833375#allposts
 
