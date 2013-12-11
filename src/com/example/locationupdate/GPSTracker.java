@@ -16,7 +16,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
- 
+
+//This class is used to obtain the user's current location using gps/network every minute.
 public class GPSTracker extends Service implements LocationListener {
  
     private final Context mContext;
@@ -37,10 +38,10 @@ public class GPSTracker extends Service implements LocationListener {
     StepRoute steproute;   
  
     // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    private static final long MIN_DISTANCE = 10; // 10 meters
  
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME = 1000 * 60 * 1; // 1 minute
  
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -56,6 +57,7 @@ public class GPSTracker extends Service implements LocationListener {
    public void setStepRoute(StepRoute sr){
 	   steproute = sr; 
    }
+   //obtain current location of the user either using gps or network
     public Location getLocation() {
         try {
               locationManager = (LocationManager) mContext
@@ -77,8 +79,8 @@ public class GPSTracker extends Service implements LocationListener {
                 if (isNetworkEnabled) {
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                            MIN_TIME,
+                            MIN_DISTANCE, this);
                     Log.d("Network", "Network");
                     if (locationManager != null) {
                         location = locationManager
@@ -91,8 +93,8 @@ public class GPSTracker extends Service implements LocationListener {
                     if (location == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
-                                MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                                MIN_TIME,
+                                MIN_DISTANCE, this);
                         Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
                             location = locationManager
@@ -147,6 +149,8 @@ public class GPSTracker extends Service implements LocationListener {
  
     @Override
     public void onLocationChanged(Location location) {
+    	/*call postData function which obtains the current navigation instruction and displays it to the rider everytime
+    	the location changes*/
     	try {
 			 steproute.postData();
 		} catch (JSONException e) {

@@ -1,39 +1,8 @@
 package com.example.androidarduinonavigation;
 
-/*import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-
-public class MainActivity extends Activity {
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-}*/
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
-
-import org.json.JSONException;
-
-
 
 import com.example.locationupdate.GPSTracker;
 import com.example.locationupdate.StepRoute;
-
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -41,7 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 
 public class MainActivity extends Activity {
 
@@ -61,11 +30,7 @@ public class MainActivity extends Activity {
         mBtnDest = (Button) findViewById(R.id.button1);
         
      // Getting reference to EditText
-        etDest = (EditText) findViewById(R.id.editText2);
-        
-        
-        
-        
+        etDest = (EditText) findViewById(R.id.editText02);
         
         mBtnDest.setOnClickListener(new View.OnClickListener() {
         	
@@ -73,35 +38,18 @@ public class MainActivity extends Activity {
         	
         	@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				// Get the user entered destination 
         		
+        	    String destination = etDest.getText().toString();
         		
-        		/*gps = new GPSTracker(GpsTracker.this);
-        		 
-                // check if GPS enabled    
-                if(gps.canGetLocation()){
-                     
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
-                     
-                    // \n is for new line
-                    Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();   
-                }*/
-        		String destination = etDest.getText().toString();
+        		//Used for debugging Log.i("destination:", destination);
         		
-        		//String destination = "Sunnyvale";
-        		
-        		Log.i("destination:", destination);
-        		
+        	    //Instantiate StepRoute object
 				sr = new StepRoute(MainActivity.this);
-	
+	            //pass the user entered destination to setUserDestination function in StepRoute class
 				sr.setUserDestination(destination);
 				
-				
-			
-				
-				
-                }
+			}
        
 				
 	   });
@@ -117,3 +65,4 @@ public class MainActivity extends Activity {
 	}
 
 }
+//

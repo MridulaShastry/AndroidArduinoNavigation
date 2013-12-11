@@ -64,21 +64,18 @@ public class StepRoute{
 		
 		geoCoder = new Geocoder(context);
     }
-    
-	/*String tURL="https://maps.googleapis.com/maps/api/place/search/json?"
-			+ "location=" + strLatitude + "," + strLongitude
-			+ "&radius=25000&"
-			+ "&mode=bicycling&sensor=false";*/
-
+    //obtain user entered destination
     public void setUserDestination(String destination) {
     	userDestination = destination;
     }
     
 	public String postData() throws JSONException, IOException {
 		
+		//get current location of the user
 		latitude = gps.getLatitude();
 		longitude = gps.getLongitude();
 		
+		//convert the latitude and longitude to strings as they need to be passed in the url.
 		strLatitude = String.valueOf(latitude);
 		strLongitude = String.valueOf(longitude);
 
@@ -98,7 +95,7 @@ public class StepRoute{
         } catch (IOException e) { // TODO Auto-generated catch block
         e.printStackTrace(); }
 
-		
+		//construct the url using current location as the source and user entered input as destination.
 		StringBuilder urlString = new StringBuilder();
 		urlString.append("http://maps.googleapis.com/maps/api/directions/json?");
 		urlString.append("origin=");// from
@@ -112,38 +109,19 @@ public class StepRoute{
 		urlString.append("&mode=bicycling&sensor=true");
 		Log.d("xxx", "URL=" + urlString.toString());
 		
+		//convert the url to string
 		testURL = urlString.toString();
 		
-		/*URL url = new URL(urlString.toString());
-		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-		urlConnection.setRequestMethod("GET");
-		urlConnection.setDoOutput(true);
-		urlConnection.setDoInput(true);
-		urlConnection.connect();
-		HttpResponse response;
-		
-		if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-	          BufferedReader input = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()),8192);
-	          String strLine = null;
-	          while ((strLine = input.readLine()) != null)
-	          {
-	              ((Appendable) response).append(strLine);
-	          }
-	          input.close();
-	      }
-	      String jsonOutput = response.toString();*/
 		
 		
-		String testurl = "http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&sensor=false&avoid=highways&mode=bicycling";
+		
+		// used for initial testing String testurl = "http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&sensor=false&avoid=highways&mode=bicycling";
 
-		// URL url = new URL(tURL);
 		// Creating HTTP client
 		HttpClient httpClient = new DefaultHttpClient();
 		// Creating HTTP Post
 		
-		
-
-		HttpPost httppost = new HttpPost(testurl);
+		HttpPost httppost = new HttpPost(testURL);
 		{
 			try {
 
@@ -152,14 +130,16 @@ public class StepRoute{
 				// Execute HTTP Post Request
 				HttpResponse response = httpClient.execute(httppost);
 				Log.i("Http Response:", response.toString());
-
+                
+				//convert the obtained response to string in json format
 				responseStr = response.toString();
 				
 				entity = response.getEntity();
 				json = EntityUtils.toString(entity);
 				
 				Log.i("Content:", json);
-				
+				/*parse the json response and obtain the first step of the first leg of the route which
+				corresponds to next turn that the rider should take */
 				final JSONObject jsonObj =new JSONObject(json);
 				final JSONObject jsonRoute = jsonObj.getJSONArray("routes").getJSONObject(0);
 				final JSONObject leg = jsonRoute.getJSONArray("legs").getJSONObject(0);
