@@ -9,6 +9,7 @@ StepRoute class constructs a url using google maps by obtaining the current loca
 we obtain the route from source to destination every minute in the form of http response from the server.The route is obtained
 in the json format. The obtained json is parsed to get only the first step instruction representing the next navigation instruction to the rider.
 This application is particularly written for bicycle routes
-Further details of this project will be available in a blog link which will be published shortly
+Further details of this project will be available in the below blog link :
+http://androidtoarduinonavigation.blogspot.com/
 
 
